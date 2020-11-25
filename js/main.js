@@ -1,30 +1,31 @@
+// Création du plateau
 var plateau = $('<div class = "plateau" style="background-color: #90EE90; height: 800px; width: 800px;position:absolute;"></div>');
 // Création de la pastille link
 var link = $('<div class ="link" style="color: blue; background-color: blue; height: 20px; width: 20px;position:absolute; border-radius: 50%;"></div>');
 // Création du vase
 var vase = $('<div class ="vase" style="color: brown; background-color: brown; height: 20px; width: 20px; position:absolute;"></div>');
 
-
-//var direction = $('<div class = "direction" style="color: red; background-color: red; height: 30px; width: 5px;position: absolute;top:-15px;left: 12.5px;"></div>');
-//Emplacement de base
+// Initialisation variable de déplacement
 var lx = 30;
 var ly = 30;
 
 $("body").append(plateau);
 $(plateau).append(link);
 $(plateau).append(vase);
-//$(Link).append(direction);
 
+// Placement initiale de Link
 link.css({
-    "left": "30px",
-    "top" : "30px"
+    "left": lx +"px",
+    "top" : ly +"px"
 })
 
+// Placement initiale du plateau
 plateau.css({
     "left": "250px",
     "top" : "100px"
 })
 
+// Placement initiale du vase
 vase.css({
     "left": "310px",
     "top": "310px",
