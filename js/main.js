@@ -1,9 +1,17 @@
 // Création du plateau
-var plateau = $('<div class = "plateau" style="background-color: #90EE90; height: 200px; width: 200px;position:absolute;"></div>');
+var plateau = $('<div class = "plateau" style="background-color: #90EE90; height: 400px; width: 400px;position:absolute;"></div>');
 // Création de la pastille link
 var link = $('<div class ="link" style="color: blue; background-color: blue; height: 20px; width: 20px;position:absolute; border-radius: 50%;"></div>');
-// Création du vase
-var vase = $('<div class ="vase" style="color: brown; background-color: brown; height: 20px; width: 20px; position:absolute;"></div>');
+// Création de mur
+var wallt = $('<div class ="wallt" style="color: brown; background-color: brown; height: 20px; width: 400px; position:absolute;"></div>');
+var walld = $('<div class ="walld" style="color: brown; background-color: brown; height: 20px; width: 400px; position:absolute;"></div>');
+var walll = $('<div class ="walll" style="color: brown; background-color: brown; height: 400px; width: 20px; position:absolute;"></div>');
+var wallr = $('<div class ="wallr" style="color: brown; background-color: brown; height: 400px; width: 20px; position:absolute;"></div>');
+var wallit = $('<div class ="wallt" style="color: brown; background-color: brown; height: 20px; width: 200px; position:absolute;"></div>');
+var wallid = $('<div class ="walld" style="color: brown; background-color: brown; height: 20px; width: 200px; position:absolute;"></div>');
+var wallil = $('<div class ="walll" style="color: brown; background-color: brown; height: 80px; width: 20px; position:absolute;"></div>');
+var wallil2 = $('<div class ="walll" style="color: brown; background-color: brown; height: 80px; width: 20px; position:absolute;"></div>');
+var wallir = $('<div class ="wallr" style="color: brown; background-color: brown; height: 200px; width: 20px; position:absolute;"></div>');
 
 // Initialisation variable de déplacement
 var lx = 20;
@@ -11,7 +19,15 @@ var ly = 20;
 
 $("body").append(plateau);
 $(plateau).append(link);
-$(plateau).append(vase);
+$(plateau).append(wallt);
+$(plateau).append(walld);
+$(plateau).append(walll);
+$(plateau).append(wallr);
+$(plateau).append(wallit);
+$(plateau).append(wallid);
+$(plateau).append(wallil);
+$(plateau).append(wallil2);
+$(plateau).append(wallir);
 
 // Placement initiale de Link
 link.css({
@@ -25,36 +41,79 @@ plateau.css({
     "top" : "100px"
 })
 
-// Placement initiale du vase
-vase.css({
-    "left": "100px",
-    "top": "100px"
+// Placement des murs
+wallt.css({
+    "left" : "0px",
+    "top" : "0px"
 })
-
+walll.css({
+    "left" : "0px",
+    "top" : "0px"
+})
+wallr.css({
+    "left" : "380px",
+    "top" : "0px"
+})
+walld.css({
+    "left" : "0px",
+    "top" : "380px"
+})
+//
+wallit.css({
+    "left" : "60px",
+    "top" : "60px"
+})
+wallil.css({
+    "left" : "60px",
+    "top" : "60px"
+})
+wallil2.css({
+    "left" : "60px",
+    "top" : "180px"
+})
+wallir.css({
+    "left" : "240px",
+    "top" : "60px"
+})
+wallid.css({
+    "left" : "60px",
+    "top" : "240px"
+})
 
 $("body").keypress(pressfunction);
 
 // Tableau du niveau (mur et case vide)
 var tab = 
 [
-    [1,1,1,1,1,1,1,1,1,1],
-    [1,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,1,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,0,0,0,0,1],
-    [1,1,1,1,1,1,1,1,1,1]
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1],
+    [1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+    [1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+    [1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+    [1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+    [1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+    [1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1],
+    [1,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 ];
+
 
 
 // Fonction détection de collision
 function collision(tab){
     var xt = lx;
     var yt = ly;
-    if(tab[xt/20][yt/20] == 1){
+    if(tab[yt/20][xt/20] == 1){
         return true;
     }
     else{return false;}
