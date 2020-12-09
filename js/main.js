@@ -5,6 +5,8 @@ var link = $('<div class ="link" style="color: blue; background-color: blue; hei
 
 var indicateur = $('<div class = "indicateur" style="color: red; background-color: red; height: 5px; width: 5px;position: absolute;z-index: 11;"></div>');
 
+var lifeath = $('<div class = "lifeath" style="height: 20px; width: 200px;position : absolute;"></div>');
+
 // Initialisation variable de déplacement
 var lx = 20;
 var ly = 20;
@@ -12,10 +14,12 @@ var ly = 20;
 var life = 3;
 
 $("body").append(plateau);
+$("body").append(lifeath);
 $(plateau).append(link);
 $(plateau).append(indicateur);
 
 // Divers variables
+var lifecontener;
 var wall;
 var ennemie;
 var door;
@@ -39,10 +43,47 @@ plateau.css({
     "left": "250px",
     "top" : "100px"
 })
+lifeath.css({
+    "left": "250px",
+    "top" : "70px"
+})
+
 
 // Apelle de la fontion a chaque action
 $("body").keypress(pressfunction);
 
+// Matrice des pv
+var lifetab = [1,1,1];
+
+// Fonciton d'affichage & supression des pv
+function lifegen(lifetab){
+    // Variable pour modifier et placet les divs
+    var localx = 0;
+    var localy = 0;
+    // Parcours de la matrice
+    for(w=0;w<lifetab.length;w++){
+        // Si 1 affiche un coeur si 0 un carré blanc
+        if(lifetab[w] == 1){
+            lifecontener = $('<div class = "lifecontener" style="color : red; background-color: red;height: 20px; width: 20px;position : absolute; border-radius: 50%;"></div>');
+            lifecontener.css({
+                "left" : localx + "px",
+                "top" : localy + "px"
+            });
+            $(lifeath).append(lifecontener);
+        }
+        if(lifetab[w] == 0){
+            wall = $('<div class ="wall" style="background-color: white; height: 20px; width: 20px; position:absolute;"></div>');
+            wall.css({
+                    "left" : localx + "px",
+                    "top" : localy + "px"
+            });
+            $(lifeath).append(wall);
+        }
+
+        localx += 40;
+    }
+}
+lifegen(lifetab);
 // Tableau du niveau (mur et case vide)
 // 0 -> sol
 // 1 -> mur
@@ -194,6 +235,7 @@ function pressfunction(event){
             ly+=20;}
         // Dans un piège
         else if(condition == 2){
+            removelife(lifetab);
             life -= 1;
             // Vérifie si le personnage est en vie
             verifLife(life);
@@ -202,6 +244,7 @@ function pressfunction(event){
         }
         // Face a un ennemie
         else if(condition == 3){
+            removelife(lifetab);
             life -= 1;
             verifLife(life);
             console.log(life);
@@ -219,11 +262,13 @@ function pressfunction(event){
         if(condition == 1){
             ly-=20;}
         else if(condition == 2){
+            removelife(lifetab);
             life -= 1;
             verifLife(life);
             console.log(life);
         }
         else if(condition == 3){
+            removelife(lifetab);
             life -= 1;
             verifLife(life);
             console.log(life);
@@ -241,11 +286,13 @@ function pressfunction(event){
         if(condition == 1){
             lx-=20;}
         else if(condition == 2){
+            removelife(lifetab);
             life -= 1;
             verifLife(life);
             console.log(life);
         }
         else if(condition == 3){
+            removelife(lifetab);
             life -= 1;
             verifLife(life);
             console.log(life);
@@ -265,11 +312,13 @@ function pressfunction(event){
             lx += 20;
         }
         else if(condition == 2){
+            removelife(lifetab);
             life -= 1;
             verifLife(life);
             console.log(life);
         }
         else if(condition == 3){
+            removelife(lifetab);
             life -= 1;
             verifLife(life);
             console.log(life);
@@ -311,4 +360,9 @@ function noMouvement(tab){
             if (tab[c][l] == 0){
                 tab[c][l] = 9;
             }}}
+}
+
+function removelife(lifetab){
+    lifetab[life-1] = 0;
+    lifegen(lifetab);
 }
