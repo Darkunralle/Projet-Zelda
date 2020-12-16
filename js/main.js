@@ -12,6 +12,7 @@ var lx = 20;
 var ly = 20;
 // Compteur de vie
 var life = 3;
+var money = 0;
 
 $("body").append(plateau);
 $("body").append(lifeath);
@@ -107,10 +108,10 @@ var tab =
     [1,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,1,1,1,1,1,0,0,1,1,1,1,1,0,0,0,0,1],
-    [1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1],
-    [1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1],
-    [1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1],
+    [1,0,0,1,1,1,1,1,3,3,1,1,1,1,1,0,0,0,0,1],
+    [1,0,0,1,4,4,4,4,4,4,4,4,4,4,1,0,0,0,0,1],
+    [1,0,0,1,4,4,4,4,4,4,4,4,4,4,1,0,0,0,0,1],
+    [1,0,0,1,4,4,4,4,4,4,4,4,4,4,1,0,0,0,0,1],
     [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 ];
 actualisation(tab);
@@ -148,12 +149,12 @@ function actualisation(tab){
             }
             // Sol
             if(tab[c][l]== 0){
-                wall = $('<div class ="wall" style="background-color: #90EE90; height: 20px; width: 20px; position:absolute;"></div>');
-                wall.css({
+                sol = $('<div class ="sol" style="background-color: #90EE90; height: 20px; width: 20px; position:absolute;"></div>');
+                sol.css({
                     "left" : l*20 + "px",
                     "top" : c*20 + "px"
                 });
-                $(plateau).append(wall);}
+                $(plateau).append(sol);}
             // Piège
             if(tab[c][l]== 5){
                 trap = $('<div class ="trap" style="background-color: black; height: 20px; width: 20px; position:absolute;"></div>');
@@ -162,7 +163,21 @@ function actualisation(tab){
                     "top" : c*20 + "px"
                 });
                 $(plateau).append(trap);}
-        }
+
+            if(tab[c][l]== 4){
+                sol = $('<div class ="sol" style="background-color: #90EE90; height: 20px; width: 20px; position:absolute;"></div>');
+                sol.css({
+                    "left" : l*20 + "px",
+                    "top" : c*20 + "px"
+                });
+                $(plateau).append(sol);
+                rubis = $('<div class ="rubis" style="background-color: green; height: 20px; width: 20px; position:absolute;border-radius : 50%"></div>');
+                rubis.css({
+                    "left" : l*20 + "px",
+                    "top" : c*20 + "px"
+                });
+                $(plateau).append(rubis);}
+    }
     }
 }
 // Fonction qui gère la destruction de div
@@ -200,7 +215,7 @@ function collision(tab){
     var xt = lx;
     var yt = ly;
     // Si la div n'est pas du sol / un piège / un ennemie bloque le passage
-    if(tab[yt/20][xt/20] != 0 && tab[yt/20][xt/20] != 5 && tab[yt/20][xt/20] != 2){
+    if(tab[yt/20][xt/20] != 0 && tab[yt/20][xt/20] != 5 && tab[yt/20][xt/20] != 2 && tab[yt/20][xt/20] != 4){
         return 1;
     // Si ces un piège subi des dégâts mais passe dessus
     }else if(tab[yt/20][xt/20] == 5 ){
@@ -208,6 +223,8 @@ function collision(tab){
     // Si ces un ennemies subi des dégat mais ne bouge pas
     }else if(tab[yt/20][xt/20] == 2 ){
         return 3;
+    }else if(tab[yt/20][xt/20] == 4 ){
+        return 4;
     }
     // Sinon c good
     else{return 0;}
@@ -341,6 +358,11 @@ function pressfunction(event){
         "left" : lx + indix +"px",
         "top" : ly + indiy + "px"
     })
+    if(condition == 4 && tab[ly/20][lx/20] == 4){
+        tab[ly/20][lx/20] = 0;
+          actualisation(tab);
+          money ++;  
+      }
 
 }
 // Fonction de vérification des hp
