@@ -2,25 +2,28 @@
 var plateau = $('<div class = "plateau" style="height: 400px; width: 400px;position:absolute;"></div>');
 // Création de la pastille link
 var link = $('<div class ="link" style="color: blue; background-color: blue; height: 20px; width: 20px;position:absolute; border-radius: 50%;z-index: 10;"></div>');
-
+// Création de l'indicateur de direction sur link
 var indicateur = $('<div class = "indicateur" style="color: red; background-color: red; height: 5px; width: 5px;position: absolute;z-index: 11;"></div>');
-
+// Création de l'affichage des HP
 var lifeath = $('<div class = "lifeath" style="height: 20px; width: 200px;position : absolute;"></div>');
-
+// Indicateur du compteur d'argent
 var moneycp = $('<div class = "moneycp" style="color : green; background-color: green;height: 20px; width: 20px;position : absolute; border-radius: 50%;"></div>');
-
+// Pour effacer le précédent nombre du compteur
 var white = $('<div class = "white" style="color : white; background-color: white;height: 20px; width: 20px;position : absolute;"></div>');
-
+// Texte explicatif
 var text = $('<div class = "text" style = "position: absolute"><p>Z,Q,S,D pour se déplacer, SPACE pour attaquer </br>Rond bleue = Link</br>Case marron = Porte destructible</br>Case rouge = Ennemie</br>Case noir = Piège</br>Rond vert = Rubis</br>Rond rouge = Vie</br>Pastille rouge sur le personnage = Direction</p></div>');
 // Initialisation variable de déplacement
 var lx = 20;
 var ly = 20;
 // Compteur de vie
 var life = 3;
+// Compteur d'argent
 var money = 0;
 
+// Affichage de nombre de rubis
 var moneyprint = $('<div class = "moneyprint" style="position: absolute;"><p>'+money+'</p></div>');
 
+// Ajout sur la page
 $("body").append(plateau);
 $("body").append(lifeath);
 $("body").append(moneycp);
@@ -44,7 +47,7 @@ link.css({
     "left": lx +"px",
     "top" : ly +"px"
 })
-
+// placement de l'indicateur sur Link
 indicateur.css({
     "left" : lx + 7.5 +"px",
     "top" : ly + 15 + "px"
@@ -55,11 +58,12 @@ plateau.css({
     "left": "250px",
     "top" : "100px"
 })
+// Placement des HP
 lifeath.css({
     "left": "250px",
     "top" : "70px"
 })
-
+// Placement des ATH lié aux rubis
 moneycp.css({
     "left" : "630px",
     "top" : "70px"
@@ -69,7 +73,7 @@ moneyprint.css({
     "left" : "610px",
     "top" : "55px"
 })
-
+// Placement du texte explicatif
 text.css({
     "left" : "250px",
     "top" : "500px"
@@ -104,7 +108,7 @@ function lifegen(lifetab){
             });
             $(lifeath).append(wall);
         }
-
+        // Permet d'espacer les "coeurs"
         localx += 40;
     }
 }
@@ -114,6 +118,7 @@ lifegen(lifetab);
 // 1 -> mur
 // 2 -> ennemie
 // 3 -> porte
+// 4 -> Rubis
 // 5 -> piège
 var tab = 
 [
@@ -187,7 +192,7 @@ function actualisation(tab){
                     "top" : c*20 + "px"
                 });
                 $(plateau).append(trap);}
-
+            // Rubis
             if(tab[c][l]== 4){
                 sol = $('<div class ="sol" style="background-color: #90EE90; height: 20px; width: 20px; position:absolute;"></div>');
                 sol.css({
@@ -247,6 +252,7 @@ function collision(tab){
     // Si ces un ennemies subi des dégat mais ne bouge pas
     }else if(tab[yt/20][xt/20] == 2 ){
         return 3;
+    // Si ces un Rubis ne déplace dessus et renvoi l'information
     }else if(tab[yt/20][xt/20] == 4 ){
         return 4;
     }
@@ -382,11 +388,16 @@ function pressfunction(event){
         "left" : lx + indix +"px",
         "top" : ly + indiy + "px"
     })
+    // Si on a "Percuter" un Rubis
     if(condition == 4 && tab[ly/20][lx/20] == 4){
+        // Remplace le rubis par du "sol"
         tab[ly/20][lx/20] = 0;
+        // Actualise
         actualisation(tab);
         money += 1;  
         console.log(money);
+        // Maj de l'affichage
+        // White est utilité pour que le précédent ne s'affiche pas
         moneyprint = $('<div class = "moneyprint" style="position: absolute;"><p>'+money+'</p></div>');
         $('body').append(white);
         $('body').append(moneyprint);
@@ -420,6 +431,7 @@ function noMouvement(tab){
             }}}
 }
 
+// Fonction de retrait d'HP
 function removelife(lifetab){
     lifetab[life-1] = 0;
     lifegen(lifetab);
