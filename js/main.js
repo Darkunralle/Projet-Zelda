@@ -7,6 +7,11 @@ var indicateur = $('<div class = "indicateur" style="color: red; background-colo
 
 var lifeath = $('<div class = "lifeath" style="height: 20px; width: 200px;position : absolute;"></div>');
 
+var moneycp = $('<div class = "moneycp" style="color : green; background-color: green;height: 20px; width: 20px;position : absolute; border-radius: 50%;"></div>');
+
+var white = $('<div class = "white" style="color : white; background-color: white;height: 20px; width: 20px;position : absolute;"></div>');
+
+var text = $('<div class = "text" style = "position: absolute"><p>Z,Q,S,D pour se déplacer, SPACE pour attaquer </br>Rond bleue = Link</br>Case marron = Porte destructible</br>Case rouge = Ennemie</br>Case noir = Piège</br>Rond vert = Rubis</br>Rond rouge = Vie</br>Pastille rouge sur le personnage = Direction</p></div>');
 // Initialisation variable de déplacement
 var lx = 20;
 var ly = 20;
@@ -14,8 +19,13 @@ var ly = 20;
 var life = 3;
 var money = 0;
 
+var moneyprint = $('<div class = "moneyprint" style="position: absolute;"><p>'+money+'</p></div>');
+
 $("body").append(plateau);
 $("body").append(lifeath);
+$("body").append(moneycp);
+$("body").append(moneyprint);
+$("body").append(text);
 $(plateau).append(link);
 $(plateau).append(indicateur);
 
@@ -27,6 +37,7 @@ var door;
 var direction = "bas";
 var indix = 7.5;
 var indiy = 15;
+
 
 // Placement initiale de Link
 link.css({
@@ -49,7 +60,20 @@ lifeath.css({
     "top" : "70px"
 })
 
+moneycp.css({
+    "left" : "630px",
+    "top" : "70px"
+})
 
+moneyprint.css({
+    "left" : "610px",
+    "top" : "55px"
+})
+
+text.css({
+    "left" : "250px",
+    "top" : "500px"
+})
 // Apelle de la fontion a chaque action
 $("body").keypress(pressfunction);
 
@@ -360,8 +384,20 @@ function pressfunction(event){
     })
     if(condition == 4 && tab[ly/20][lx/20] == 4){
         tab[ly/20][lx/20] = 0;
-          actualisation(tab);
-          money ++;  
+        actualisation(tab);
+        money += 1;  
+        console.log(money);
+        moneyprint = $('<div class = "moneyprint" style="position: absolute;"><p>'+money+'</p></div>');
+        $('body').append(white);
+        $('body').append(moneyprint);
+        moneyprint.css({
+            "left" : "610px",
+            "top" : "55px"
+        })
+        white.css({
+            "left" : "607px",
+            "top" : "70px"
+        })
       }
 
 }
